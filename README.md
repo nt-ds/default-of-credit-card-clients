@@ -13,4 +13,4 @@ The data is conveniently provided in the data folder of this repository. Multipl
 The full project is comprised of four notebooks. The first notebook, 1.0-eda.ipynb, contains the process used to explore and clean the data. The second and third notebooks, titled 2.0-models and 3.0-models-transformed-data, each contain several models for the data. The fourth notebook, 4.0-technical, provides an overview and exploration of the best performing model.
 
 ## Results
-We attempted to fit models using decision trees, random forest, xgboost, logistic regression, and SVM. Random Forest and decision trees yielded the best models. 
+We attempted to fit models using decision trees, random forest, xgboost, logistic regression, and SVM. Random Forest and decision trees yielded the best models, as determined by recall.
