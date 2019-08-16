@@ -34,11 +34,18 @@ def all_scores(y_true:np.ndarray,
     Inputs:
         y_true: true labels of data
         y_pred: predicted labels of data
-    Returns: None
+    Returns:
+        test_recall: recall of y_true and y_pred
+        test_precision: precision of y_true and y_pred
+        test_f1: f1-score of y_true and y_pred
     """
+    test_recall = recall_score(y_true, y_pred)
+    test_precision = precision_score(y_true, y_pred)
+    test_f1 =  f1_score(y_true, y_pred)
     print(f'f-1 score: {f1_score(y_true, y_pred)}')
     print(f'recall: {recall_score(y_true, y_pred)}')
     print(f'precision:{precision_score(y_true, y_pred)}')
+    return test_recall, test_precision, test_f1
 
 
 def undersample(df:np.ndarray,
@@ -136,19 +143,22 @@ def scores_of_best_search(trained_search: sklearn.model_selection._search.BaseSe
         X_test: test set of examples
         y_train: training set of labels, corresponding to X_train
         y_test: test set of labels, corresponding to X_test
-    Returns: None
+    Returns:
+        test_recall: recall of y_test and prediction of the best model
+        test_precision: precision of y_test and prediction of the best model
+        test_f1: f1 score of y_test and prediction of the best model
     """
     best_clf = trained_search.best_estimator_
     best_clf.fit(X_train, y_train)
 
     y_train_preds = best_clf.predict(X_train)
     print("Training Scores:")
-    all_scores(y_train, y_train_preds)
+    _, _2, _3 = all_scores(y_train, y_train_preds)
 
     best_preds = best_clf.predict(X_test)
     print("Test Scores:")
-    all_scores(y_test, best_preds)
-
+    test_recall, test_precision, test_f1 = all_scores(y_test, best_preds)
+    return test_recall, test_precision, test_f1
 
 def scores_confusion_matrix(trained_search: sklearn.model_selection._search.BaseSearchCV,
                             X_train: np.ndarray,
@@ -165,8 +175,12 @@ def scores_confusion_matrix(trained_search: sklearn.model_selection._search.Base
         X_test: test set of examples
         y_train: training set of labels, corresponding to X_train
         y_test: test set of labels, corresponding to X_test
-    Returns: None
+    Returns:
+        test_recall: recall of y_test and prediction of the best model
+        test_precision: precision of y_test and prediction of the best model
+        test_f1: f1 score of y_test and prediction of the best model
     """
-    scores_of_best_search(trained_search, X_train, X_test, y_train, y_test)
+    test_recall, test_precision, test_f1 = scores_of_best_search(trained_search, X_train, X_test, y_train, y_test)
     plot_confusion_matrix(trained_search.best_estimator_,
                           X_train, X_test, y_train, y_test)
+    return test_recall, test_precision, test_f1
