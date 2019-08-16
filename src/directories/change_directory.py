@@ -15,6 +15,11 @@ class ChangeDirectory:
     def __init__(self):
         self.MAIN_DIR = os.getcwd()
         
+    def change_to_src_models_dir(self):
+        parent_path = Path(self.MAIN_DIR).parent
+        data_path = str(parent_path) + "/src/models"
+        os.chdir(data_path)
+        
     def change_to_data_dir(self):
         parent_path = Path(self.MAIN_DIR).parent
         data_path = str(parent_path) + "/data"
