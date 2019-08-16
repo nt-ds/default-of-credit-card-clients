@@ -28,7 +28,8 @@ def plot_confusion_matrix(model:sklearn.base.BaseEstimator,
 
 
 def all_scores(y_true:np.ndarray,
-               y_pred:np.ndarray):
+               y_pred:np.ndarray,
+               printout:bool=False):
     """
     Prints f-1 score, recall, and precision for the provided true values and predictions.
     Inputs:
@@ -42,9 +43,10 @@ def all_scores(y_true:np.ndarray,
     test_recall = recall_score(y_true, y_pred)
     test_precision = precision_score(y_true, y_pred)
     test_f1 =  f1_score(y_true, y_pred)
-    print(f'f-1 score: {f1_score(y_true, y_pred)}')
-    print(f'recall: {recall_score(y_true, y_pred)}')
-    print(f'precision:{precision_score(y_true, y_pred)}')
+    if printout:
+        print(f'f-1 score: {f1_score(y_true, y_pred)}')
+        print(f'recall: {recall_score(y_true, y_pred)}')
+        print(f'precision:{precision_score(y_true, y_pred)}')
     return test_recall, test_precision, test_f1
 
 
@@ -132,7 +134,8 @@ def scores_of_best_search(trained_search: sklearn.model_selection._search.BaseSe
                           X_train: np.ndarray,
                           X_test: np.ndarray,
                           y_train: np.ndarray,
-                          y_test: np.ndarray):
+                          y_test: np.ndarray,
+                          printout:bool=False):
     """
     Outputs the precision, recall, and f-1 score of the best model in a trained search
     object(GridSearchCV, RandomizedCV) in sklearn.
@@ -152,19 +155,22 @@ def scores_of_best_search(trained_search: sklearn.model_selection._search.BaseSe
     best_clf.fit(X_train, y_train)
 
     y_train_preds = best_clf.predict(X_train)
-    print("Training Scores:")
-    _, _2, _3 = all_scores(y_train, y_train_preds)
+    if printout:
+        print("Training Scores:")
+    _, _2, _3 = all_scores(y_train, y_train_preds, printout)
 
     best_preds = best_clf.predict(X_test)
-    print("Test Scores:")
-    test_recall, test_precision, test_f1 = all_scores(y_test, best_preds)
+    if printout:
+        print("Test Scores:")
+    test_recall, test_precision, test_f1 = all_scores(y_test, best_preds, printout)
     return test_recall, test_precision, test_f1
 
 def scores_confusion_matrix(trained_search: sklearn.model_selection._search.BaseSearchCV,
                             X_train: np.ndarray,
                             X_test: np.ndarray,
                             y_train: np.ndarray,
-                            y_test: np.ndarray):
+                            y_test: np.ndarray,
+                            printout:bool=False):
     """
     Outputs the score and confusion matrix of the best model in a trained search
     object(GridSearchCV, RandomizedCV) in sklearn.
@@ -180,7 +186,7 @@ def scores_confusion_matrix(trained_search: sklearn.model_selection._search.Base
         test_precision: precision of y_test and prediction of the best model
         test_f1: f1 score of y_test and prediction of the best model
     """
-    test_recall, test_precision, test_f1 = scores_of_best_search(trained_search, X_train, X_test, y_train, y_test)
+    test_recall, test_precision, test_f1 = scores_of_best_search(trained_search, X_train, X_test, y_train, y_test, printout)
     plot_confusion_matrix(trained_search.best_estimator_,
                           X_train, X_test, y_train, y_test)
     return test_recall, test_precision, test_f1
