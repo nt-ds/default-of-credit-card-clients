@@ -4,7 +4,7 @@ Our purpose is to build a model that predicts whether or not a person is going t
 
 ## Data
 
-Data was obtained from the [https://archive.ics.uci.edu/ml/datasets/default+of+credit+card+clients](UCI Machine Learning Repository). It contains information on the payment habits of 30,000 credit card holders in Taiwan from 2005.
+Data was obtained from the [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/default+of+credit+card+clients). It contains information on the payment habits of 30,000 credit card holders in Taiwan from 2005.
 
 The data is conveniently provided in the data folder of this repository. Multiple forms of the data are provided. The raw data is in the raw subfolder, and the processed data is in the processed subfolder. There are 2 processed data sets, one which is unscaled and the other in which numerical (non-dummy) variables are scaled between 0 and 1. 
 
